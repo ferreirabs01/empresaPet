@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraPet - Portal de Experiência & Identidade de Marca</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter para o layout e Fredoka para elementos Pet/Brand divertidos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-brand {
+            font-family: 'Fredoka', sans-serif;
+        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        /* Soft pulsing animation for custom highlights */
+        @keyframes softPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.03); opacity: 0.95; }
+        }
+        .animate-soft-pulse {
+            animation: softPulse 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            teal: '#2DD4BF',      /* Verde Menta principal */
+                            navy: '#1E293B',      /* Azul Oceano Profundo */
+                            coral: '#FB7185',     /* Coral de Destaque */
+                            softTeal: '#F0FDFA',  /* Fundo Suave Teal */
+                            petBg: '#E0F2FE',     /* Azul Céu Suave */
+                            gold: '#F59E0B'       /* Amarelo Ouro/Mascote */
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Top Bar / Switcher -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Branding Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="bg-teal-500 text-white p-2.5 rounded-2xl flex items-center justify-center shadow-md shadow-teal-500/20">
+                        <!-- Custom SVG Logo: Dog/Cat combined with Aura waves -->
+                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm-1.5-3.5c-.55 0-1-.45-1-1V8c0-.55.45-1 1-1s1.45.1 1 1v5c0 .55-.45 1-1 1zm5.24-5.24l-1.41 1.41c-.39-.39-.9-.59-1.41-.59s-1.02.2-1.41.59l-1.41-1.41c.78-.78 1.81-1.17 2.83-1.17s2.05.39 2.81 1.17z"/>
+                            <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm1.5-5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" opacity="0.4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-bold font-brand tracking-tight bg-gradient-to-r from-teal-600 to-emerald-500 bg-clip-text text-transparent">AuraPet</span>
+                        <p class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Brand Experience Hub</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs (Central Controls) -->
+                <nav class="hidden md:flex bg-slate-100 p-1.5 rounded-full border border-slate-200">
+                    <button onclick="switchTab('landing')" id="tab-btn-landing" class="tab-btn active px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 bg-teal-500 text-white shadow-sm">
+                        <i class="fa-solid fa-earth-americas mr-2"></i>Landing Page
+                    </button>
+                    <button onclick="switchTab('uniforms')" id="tab-btn-uniforms" class="tab-btn px-5 py-2 rounded-full text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-300">
+                        <i class="fa-solid fa-shirt mr-2"></i>Uniformes & Mascote
+                    </button>
+                    <button onclick="switchTab('calculator')" id="tab-btn-calculator" class="tab-btn px-5 py-2 rounded-full text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-300">
+                        <i class="fa-solid fa-calculator mr-2"></i>Calculadora / Simulador
+                    </button>
+                    <button onclick="switchTab('share')" id="tab-btn-share" class="tab-btn px-5 py-2 rounded-full text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-300">
+                        <i class="fa-solid fa-share-nodes mr-2"></i>Entrega Classroom
+                    </button>
+                </nav>
+
+                <!-- Status/CTA -->
+                <div class="flex items-center gap-3">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">
+                        <span class="w-1.5 h-1.5 mr-1.5 bg-emerald-500 rounded-full animate-ping"></span> Ativo para Avaliação
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Bar -->
+    <div class="md:hidden bg-white border-b border-slate-200 p-2 flex justify-around sticky top-20 z-40 shadow-sm">
+        <button onclick="switchTab('landing')" id="mobile-tab-btn-landing" class="mobile-tab-btn text-teal-600 font-semibold text-xs flex flex-col items-center gap-1">
+            <i class="fa-solid fa-earth-americas text-lg"></i>Landing
+        </button>
+        <button onclick="switchTab('uniforms')" id="mobile-tab-btn-uniforms" class="mobile-tab-btn text-slate-500 font-medium text-xs flex flex-col items-center gap-1">
+            <i class="fa-solid fa-shirt text-lg"></i>Uniformes
+        </button>
+        <button onclick="switchTab('calculator')" id="mobile-tab-btn-calculator" class="mobile-tab-btn text-slate-500 font-medium text-xs flex flex-col items-center gap-1">
+            <i class="fa-solid fa-calculator text-lg"></i>Simulador
+        </button>
+        <button onclick="switchTab('share')" id="mobile-tab-btn-share" class="mobile-tab-btn text-slate-500 font-medium text-xs flex flex-col items-center gap-1">
+            <i class="fa-solid fa-share-nodes text-lg"></i>Entrega
+        </button>
+    </div>
+
+    <!-- Alert / Toast Container -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300">
+        <span id="toast-icon" class="text-teal-400"><i class="fa-solid fa-check-circle"></i></span>
+        <span id="toast-message" class="text-sm font-medium">Link copiado com sucesso!</span>
+    </div>
+
+    <!-- Main Content Container containing all Section Panels -->
+    <main class="flex-grow">
+
+        <!-- ============================================== -->
+        <!-- TAB 1: LANDING PAGE -->
+        <!-- ============================================== -->
+        <section id="panel-landing" class="tab-panel active-panel block">
+            
+            <!-- Hero Section with Glassmorphism overlay and glowing elements -->
+            <div class="relative bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900 text-white overflow-hidden py-24 px-6 md:px-12">
+                <!-- Abstract glowing backgrounds -->
+                <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl animate-soft-pulse"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl"></div>
+                
+                <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-8">
+                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-400/10 text-teal-300 text-xs font-semibold uppercase tracking-wider border border-teal-500/20">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Bem-vindo à nova era do pet care
+                        </span>
+                        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
+                            Conecte-se à energia e ao bem-estar do seu <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-300 font-brand">Melhor Amigo</span>
+                        </h1>
+                        <p class="text-slate-300 text-lg max-w-xl">
+                            A AuraPet desenvolve ecossistemas inteligentes de saúde e bem-estar para cães e gatos. Monitore sinais vitais, alimentação e comportamento com precisão e amor.
+                        </p>
+                        
+                        <!-- Actions -->
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="switchTab('calculator')" class="bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-500 hover:to-emerald-500 text-slate-950 font-bold px-8 py-4 rounded-2xl shadow-lg shadow-teal-500/20 transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-calculator"></i> Simular Meu Ecossistema
+                            </button>
+                            <a href="#solucoes" class="border border-slate-700 hover:border-slate-500 hover:bg-slate-800/40 text-slate-200 font-semibold px-8 py-4 rounded-2xl transition-all duration-300 text-center">
+                                Conhecer Soluções
+                            </a>
+                        </div>
+
+                        <!-- Mini Badges -->
+                        <div class="pt-6 border-t border-slate-800/60 grid grid-cols-3 gap-4 text-center sm:text-left">
+                            <div>
+                                <h4 class="text-2xl font-bold text-teal-400 font-brand">99.4%</h4>
+                                <p class="text-xs text-slate-400">Precisão de Monitoramento</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold text-emerald-400 font-brand">+12k</h4>
+                                <p class="text-xs text-slate-400">Pets Monitorados e Protegidos</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold text-rose-400 font-brand">24/7</h4>
+                                <p class="text-xs text-slate-400">Suporte Veterinário Integrado</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Graphic: Beautiful Device Display & Mascot Hologram -->
+                    <div class="lg:col-span-5 flex justify-center relative">
+                        <div class="relative w-80 h-80 md:w-96 md:h-96 bg-teal-500/10 rounded-full flex items-center justify-center border border-teal-500/20 shadow-inner">
+                            <!-- Mascot Representation (AURI Hologram Effect) -->
+                            <div class="absolute inset-0 flex items-center justify-center animate-soft-pulse">
+                                <svg class="w-64 h-64 drop-shadow-[0_0_25px_rgba(45,212,191,0.5)]" viewBox="0 0 200 200" fill="none">
+                                    <!-- Cute Glowing Cyber Dog Face -->
+                                    <circle cx="100" cy="100" r="75" fill="#111827" stroke="#2dd4bf" stroke-width="3" />
+                                    <!-- Dog Ears -->
+                                    <polygon points="40,65 25,110 65,95" fill="#1e293b" stroke="#2dd4bf" stroke-width="2" stroke-linejoin="round"/>
+                                    <polygon points="160,65 175,110 135,95" fill="#1e293b" stroke="#2dd4bf" stroke-width="2" stroke-linejoin="round"/>
+                                    <!-- Cute Shiba markings -->
+                                    <path d="M60 140 C 70 120, 130 120, 140 140" fill="none" stroke="#2dd4bf" stroke-width="2" />
+                                    <!-- Eyes -->
+                                    <circle cx="75" cy="95" r="7" fill="#fb7185" />
+                                    <circle cx="125" cy="95" r="7" fill="#fb7185" />
+                                    <!-- Inner neon eye dot -->
+                                    <circle cx="75" cy="95" r="2" fill="#fff" />
+                                    <circle cx="125" cy="95" r="2" fill="#fff" />
+                                    <!-- Nose / Snout -->
+                                    <ellipse cx="100" cy="115" rx="8" ry="5" fill="#2dd4bf" />
+                                    <!-- Friendly mouth -->
+                                    <path d="M92 123 Q 100 130 108 123" stroke="#2dd4bf" stroke-width="2.5" fill="none" stroke-linecap="round" />
+                                    <!-- Neon Aura Ring around neck -->
+                                    <ellipse cx="100" cy="165" rx="45" ry="8" fill="none" stroke="#fb7185" stroke-width="3" class="animate-pulse" />
+                                    <circle cx="100" cy="165" r="5" fill="#fff" />
+                                </svg>
+                            </div>
+                            
+                            <!-- Interface Floating tags -->
+                            <div class="absolute -top-4 right-4 bg-slate-900/90 backdrop-blur-md border border-teal-500/40 text-white rounded-2xl px-4 py-2 text-xs flex items-center gap-2 shadow-lg">
+                                <i class="fa-solid fa-heart-pulse text-rose-500 animate-pulse"></i>
+                                <span>Freq. Cardíaca: <b>98 bpm</b></span>
+                            </div>
+                            <div class="absolute bottom-4 -left-6 bg-slate-900/90 backdrop-blur-md border border-emerald-500/40 text-white rounded-2xl px-4 py-2 text-xs flex items-center gap-2 shadow-lg">
+                                <i class="fa-solid fa-utensils text-emerald-400"></i>
+                                <span>Ração: <b>Dispensada às 08:00</b></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Special Tribute Section: O Lendário Caramelo -->
+            <div class="bg-gradient-to-r from-amber-50 to-orange-100 py-12 border-y border-amber-200/60">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="bg-white rounded-[32px] p-6 md:p-10 shadow-md border border-amber-200 flex flex-col lg:flex-row items-center gap-8 md:gap-12 relative overflow-hidden">
+                        <!-- Decorative background badge -->
+                        <div class="absolute -top-10 -left-10 w-40 h-40 bg-amber-400/10 rounded-full blur-2xl"></div>
+                        
+                        <!-- Caramel Dog Image -->
+                        <div class="w-full lg:w-5/12 flex-shrink-0 relative group">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                            <img src="./caramelo.png" 
+                                 alt="Vira-lata Caramelo, a verdadeira inspiração nacional" 
+                                 class="w-full h-64 md:h-80 object-cover rounded-2xl border-4 border-amber-100 shadow-lg transform transition duration-500 hover:scale-[1.02]"
+                                 onerror="this.src='https://placehold.co/800x600/f59e0b/ffffff?text=Vira-lata+Caramelo+AuraPet'">
+                            <span class="absolute bottom-4 left-4 bg-amber-500 text-white font-bold text-xs font-brand px-3 py-1.5 rounded-full z-20 shadow-md">
+                                🐾 Embaixador AuraPet
+                            </span>
+                        </div>
+
+                        <!-- Text / Value Proposition -->
+                        <div class="space-y-5 lg:w-7/12">
+                            <span class="text-amber-600 font-bold tracking-widest text-xs uppercase block">Homenagem Especial</span>
+                            <h3 class="text-2xl md:text-4xl font-black font-brand text-slate-900 leading-tight">
+                                Inspirado no maior ícone do Brasil: O <span class="text-amber-600">Vira-lata Caramelo</span>!
+                            </h3>
+                            <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                                Se tem um pet que esbanja energia, resiliência e amor puro, é o lendário vira-lata caramelo. Na AuraPet, desenvolvemos nossas tecnologias pensando no bem-estar de todos os pets, dos de raça nobre até o amado e destemido caramelo que domina as ruas e os corações dos brasileiros.
+                            </p>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-xs font-semibold">
+                                    <i class="fa-solid fa-bolt"></i> Energia Pura
+                                </span>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-xs font-semibold">
+                                    <i class="fa-solid fa-heart"></i> Amor Incondicional
+                                </span>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-xs font-semibold">
+                                    <i class="fa-solid fa-shield-heart"></i> 100% Protegido por AuraCollar
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products / Core Services Grid Section -->
+            <div id="solucoes" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-teal-600 font-bold tracking-widest text-xs uppercase block mb-2">Tecnologia Conectada</span>
+                    <h2 class="text-3xl md:text-5xl font-black font-brand text-slate-900">Ecossistema AuraPet de Saúde</h2>
+                    <p class="text-slate-600 mt-4 text-base md:text-lg">
+                        Nossos dispositivos inteligentes trabalham em sintonia perfeita com o aplicativo da marca para garantir bem-estar total ao seu pet.
+                    </p>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Product Card 1 -->
+                    <div class="bg-white rounded-3xl border border-slate-200/80 p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <!-- Visual Asset: Coleira Icon wrapper -->
+                            <div class="w-16 h-16 rounded-2xl bg-teal-500/10 text-teal-600 flex items-center justify-center mb-6 group-hover:bg-teal-500 group-hover:text-white transition-all duration-300">
+                                <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14H11V8h2v8z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-3 font-brand">AuraCollar Smart</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                                A primeira coleira com monitoramento biométrico ativo em tempo real. Acompanhe localização GPS, batimentos cardíacos, níveis de estresse e sono profundo.
+                            </p>
+                            <ul class="space-y-3 mb-8 text-sm text-slate-600 font-medium">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-teal-500"></i> Bateria para até 15 dias</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-teal-500"></i> Totalmente impermeável (IP68)</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-teal-500"></i> GPS Avançado sem mensalidade básica</li>
+                            </ul>
+                        </div>
+                        <div class="border-t border-slate-100 pt-6">
+                            <span class="text-xs text-slate-400 font-semibold block uppercase">A partir de</span>
+                            <div class="flex items-baseline gap-2 mt-1">
+                                <span class="text-2xl font-black text-slate-900">R$ 289</span>
+                                <span class="text-xs text-slate-500">/ peça única</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 2 -->
+                    <div class="bg-white rounded-3xl border border-teal-200 p-8 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group relative">
+                        <span class="absolute top-0 right-6 transform -translate-y-1/2 bg-rose-500 text-white font-bold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Mais Vendido</span>
+                        <div>
+                            <!-- Visual Asset: Alimentador Icon wrapper -->
+                            <div class="w-16 h-16 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center mb-6 group-hover:bg-rose-500 group-hover:text-white transition-all duration-300">
+                                <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm1.5-5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-3 font-brand">AuraFeeder Pro</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                                Alimentador de precisão controlado via Wi-Fi. Automatize porções de ração, defina metas de dieta, ouça seu pet à distância e dispense via voz remota.
+                            </p>
+                            <ul class="space-y-3 mb-8 text-sm text-slate-600 font-medium">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-500"></i> Reservatório hermético antibacteriano</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-500"></i> Câmera Full HD integrada com Visão Noturna</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-500"></i> Balança de alta precisão integrada</li>
+                            </ul>
+                        </div>
+                        <div class="border-t border-slate-100 pt-6">
+                            <span class="text-xs text-slate-400 font-semibold block uppercase">A partir de</span>
+                            <div class="flex items-baseline gap-2 mt-1">
+                                <span class="text-2xl font-black text-slate-900">R$ 449</span>
+                                <span class="text-xs text-slate-500">/ unidade</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 3 -->
+                    <div class="bg-white rounded-3xl border border-slate-200/80 p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <!-- Visual Asset: Aura Care App Icon wrapper -->
+                            <div class="w-16 h-16 rounded-2xl bg-teal-500/10 text-emerald-600 flex items-center justify-center mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
+                                <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-3 font-brand">AuraCare Premium</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                                Assinatura veterinária inteligente que centraliza todos os dados de saúde do pet, envia relatórios de saúde automáticos e dá acesso ilimitado a teleconsultas.
+                            </p>
+                            <ul class="space-y-3 mb-8 text-sm text-slate-600 font-medium">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Teleconsultas veterinárias imediatas</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Alertas preditivos de anormalidades</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Seguro saúde e descontos em petshops</li>
+                            </ul>
+                        </div>
+                        <div class="border-t border-slate-100 pt-6">
+                            <span class="text-xs text-slate-400 font-semibold block uppercase">Mensalidade</span>
+                            <div class="flex items-baseline gap-2 mt-1">
+                                <span class="text-2xl font-black text-slate-900">R$ 29,90</span>
+                                <span class="text-xs text-slate-500">/ mês por pet</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Corporate / Identity Presentation Showcase Section -->
+            <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-teal-950 text-white py-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-5 relative">
+                        <!-- High-fidelity custom brand mascot scene -->
+                        <div class="bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10 shadow-2xl">
+                            <span class="text-[10px] tracking-widest uppercase text-teal-400 font-bold block mb-4">Manual da Marca</span>
+                            <h3 class="text-2xl font-bold font-brand mb-4 text-white">Nossa Essência: Aura & Conexão</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                A paleta oficial da <b>AuraPet</b> equilibra o tecnicismo moderno e limpo do <b>Teal Menta</b> com a confiança e elegância do <b>Deep Ocean Blue</b>.
+                            </p>
+                            
+                            <!-- Interactive brand color indicators inside landing -->
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-[#2DD4BF] border border-white/10 shadow-inner"></div>
+                                        <div>
+                                            <span class="text-xs font-bold text-white block">Teal Menta (Principal)</span>
+                                            <span class="text-[10px] text-slate-400">#2DD4BF | Saúde e Vitalidade</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-[10px] text-teal-400 font-mono">PRIMARY</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-[#1E293B] border border-white/10 shadow-inner"></div>
+                                        <div>
+                                            <span class="text-xs font-bold text-white block">Deep Ocean Blue</span>
+                                            <span class="text-[10px] text-slate-400">#1E293B | Confiança e Solidez</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-[10px] text-slate-400 font-mono">DARK BASE</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-[#FB7185] border border-white/10 shadow-inner"></div>
+                                        <div>
+                                            <span class="text-xs font-bold text-white block">Coral Intenso (Contraste)</span>
+                                            <span class="text-[10px] text-slate-400">#FB7185 | Paixão e Cuidado</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-[10px] text-rose-400 font-mono">ACCENT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-7 space-y-6">
+                        <span class="text-teal-400 font-bold text-xs uppercase tracking-widest block">Nosso Compromisso</span>
+                        <h2 class="text-3xl md:text-5xl font-black font-brand leading-tight">Ciência e Coração pelos Animais de Estimação</h2>
+                        <p class="text-slate-300 text-base leading-relaxed">
+                            Nascemos da união entre cientistas de dados, designers experientes e médicos veterinários apaixonados. Entendemos que seu animal de estimação faz parte da sua família e, para manter essa conexão sempre saudável, desenvolvemos tecnologia de grau médico com embalagem amigável e acessível.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                            <div class="flex gap-4 items-start">
+                                <div class="bg-teal-500/15 p-2.5 rounded-xl text-teal-300"><i class="fa-solid fa-microchip text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Hardware Proprietário</h4>
+                                    <p class="text-xs text-slate-400">Sensores hipoalergênicos que não geram aquecimento ou radiação.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4 items-start">
+                                <div class="bg-rose-500/15 p-2.5 rounded-xl text-rose-300"><i class="fa-solid fa-shield-dog text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Privacidade Total de Dados</h4>
+                                    <p class="text-xs text-slate-400">Seus dados e relatórios de localização criptografados na nuvem AuraCloud.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action Section -->
+            <div class="bg-teal-50 py-20 px-4">
+                <div class="max-w-5xl mx-auto text-center space-y-8 bg-white p-10 md:p-16 rounded-[40px] shadow-xl shadow-teal-900/5 border border-teal-100/50 relative overflow-hidden">
+                    <div class="absolute -top-12 -left-12 w-48 h-48 bg-teal-100 rounded-full blur-2xl"></div>
+                    <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-rose-100 rounded-full blur-2xl"></div>
+
+                    <div class="relative z-10 space-y-6">
+                        <span class="bg-teal-100 text-teal-800 font-bold px-4 py-1.5 rounded-full text-xs uppercase tracking-wider">Garanta Frete Grátis</span>
+                        <h2 class="text-3xl md:text-5xl font-black font-brand text-slate-900">Pronto para dar superpoderes ao seu melhor amigo?</h2>
+                        <p class="text-slate-600 max-w-2xl mx-auto text-sm md:text-base">
+                            Cadastre seu e-mail agora mesmo para receber <b>15% de desconto</b> na sua primeira compra do kit AuraCollar + AuraFeeder e ganhe um ano de plano AuraCare grátis.
+                        </p>
+                        
+                        <form onsubmit="event.preventDefault(); showToast('Inscrição realizada! Seu cupom de 15% foi enviado.', 'success');" class="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+                            <input type="email" required placeholder="Digite o e-mail de tutor" class="bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent px-5 py-4 rounded-2xl w-full text-slate-800 shadow-inner font-medium">
+                            <button type="submit" class="bg-slate-900 text-white font-bold px-8 py-4 rounded-2xl hover:bg-slate-800 transition-all duration-300 flex-shrink-0 shadow-lg">
+                                Quero Desconto
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Landing Page Footer -->
+            <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-teal-500 text-white p-2 rounded-xl">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm-1.5-3.5c-.55 0-1-.45-1-1V8c0-.55.45-1 1-1s1.45.1 1 1v5c0 .55-.45 1-1 1zm5.24-5.24l-1.41 1.41c-.39-.39-.9-.59-1.41-.59s-1.02.2-1.41.59l-1.41-1.41c.78-.78 1.81-1.17 2.83-1.17s2.05.39 2.81 1.17z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold font-brand tracking-tight text-white">AuraPet Inc.</span>
+                    </div>
+                    <p class="text-xs text-slate-500">&copy; 2026 AuraPet Technologies. Todos os direitos reservados. Proposta visual de avaliação acadêmica.</p>
+                </div>
+            </footer>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- TAB 2: UNIFORM DESIGN & MASCOT -->
+        <!-- ============================================== -->
+        <section id="panel-uniforms" class="tab-panel hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="bg-indigo-100 text-indigo-700 font-bold px-3 py-1.5 rounded-full text-xs uppercase tracking-wider">Identidade Visual no Mundo Real</span>
+                    <h2 class="text-3xl md:text-5xl font-black font-brand text-slate-900 mt-2">Uniformes & Mascote</h2>
+                    <p class="text-slate-600 text-sm mt-3">
+                        Nosso visual de equipe reflete o dinamismo de AuraPet. Personalize e visualize os uniformes profissionais interativos abaixo.
+                    </p>
+                </div>
+
+                <!-- Mascot Profile Card -->
+                <div class="bg-gradient-to-r from-teal-500 to-emerald-500 rounded-3xl p-8 md:p-12 text-slate-950 mb-12 shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-4 flex justify-center">
+                        <!-- Custom high resolution glowing mascot card illustration -->
+                        <div class="bg-slate-950/20 backdrop-blur-md p-6 rounded-3xl border border-white/20 text-center relative overflow-hidden group">
+                            <!-- Floating animated sparkles -->
+                            <div class="absolute -top-6 -right-6 w-24 h-24 bg-yellow-400/20 rounded-full blur-xl animate-pulse"></div>
+                            
+                            <svg class="w-48 h-48 drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]" viewBox="0 0 200 200">
+                                <!-- Mascot Shiba Vector Body -->
+                                <path d="M100 25 L55 65 L65 100 Q100 80 135 100 L145 65 Z" fill="#F59E0B" stroke="#ffffff" stroke-width="2"/>
+                                <!-- Inner ears -->
+                                <path d="M100 25 L65 65 L70 80 Q100 65 130 80 L135 65 Z" fill="#FEE2E2" opacity="0.8"/>
+                                <!-- Cheeks and Head -->
+                                <circle cx="100" cy="110" r="48" fill="#F59E0B" stroke="#ffffff" stroke-width="2"/>
+                                <path d="M57 115 Q100 95 143 115 Q143 150 100 155 Q57 150 57 115 Z" fill="#FFFFFF"/>
+                                <!-- Eyes (Anime/Glow style) -->
+                                <circle cx="80" cy="105" r="5" fill="#1E293B" />
+                                <circle cx="120" cy="105" r="5" fill="#1E293B" />
+                                <circle cx="78" cy="103" r="2" fill="#FFFFFF" />
+                                <circle cx="118" cy="103" r="2" fill="#FFFFFF" />
+                                <!-- Cheerful Blushing -->
+                                <ellipse cx="68" cy="115" rx="6" ry="4" fill="#FB7185" opacity="0.6"/>
+                                <ellipse cx="132" cy="115" rx="6" ry="4" fill="#FB7185" opacity="0.6"/>
+                                <!-- Nose/Snout -->
+                                <ellipse cx="100" cy="115" rx="5" ry="3.5" fill="#1E293B"/>
+                                <path d="M96 122 Q100 126 104 122" stroke="#1E293B" stroke-width="2" fill="none"/>
+                                <!-- Smart collar on mascot -->
+                                <path d="M68 145 C 80 158, 120 158, 132 145" stroke="#FB7185" stroke-width="6" fill="none" stroke-linecap="round"/>
+                                <circle cx="100" cy="154" r="5" fill="#FFF" class="animate-ping"/>
+                                <circle cx="100" cy="154" r="4" fill="#2DD4BF"/>
+                            </svg>
+                            <span class="inline-block mt-4 bg-slate-950 text-white font-bold text-xs font-brand px-3 py-1 rounded-full">Auri, o Mascote Holográfico</span>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-8 space-y-4">
+                        <h3 class="text-2xl md:text-4xl font-black font-brand">Apresentamos o "Auri"</h3>
+                        <p class="text-slate-900 text-base leading-relaxed font-medium">
+                            Nascido dos dados de frequência de bem-estar, <b>Auri</b> é o guia virtual da AuraPet. Ele ensina novos tutores como configurar o aplicativo, comemora conquistas diárias de saúde do pet, alerta se as calorias estão abaixo da meta e aparece como holograma virtual 3D na interface do sistema.
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="bg-white/30 backdrop-blur-sm border border-white/40 text-xs px-3 py-1.5 rounded-full font-bold">Simpático</span>
+                            <span class="bg-white/30 backdrop-blur-sm border border-white/40 text-xs px-3 py-1.5 rounded-full font-bold">Inovador</span>
+                            <span class="bg-white/30 backdrop-blur-sm border border-white/40 text-xs px-3 py-1.5 rounded-full font-bold">Guardião da Saúde</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customizer Grid: Controls and live visual mockups of Uniforms -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Control panel column -->
+                    <div class="lg:col-span-4 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-6">
+                        <h3 class="text-xl font-bold text-slate-900 font-brand">Configurador de Uniforme</h3>
+                        <p class="text-xs text-slate-500">Mude os parâmetros abaixo para simular as opções de vestuário prático da equipe de atendimento, técnica e logística.</p>
+                        
+                        <!-- Control: Select Uniform Type -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Tipo de Peça</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="selectUniformType('tshirt')" id="btn-unif-tshirt" class="unif-type-btn p-3 rounded-xl border-2 border-teal-500 bg-teal-50 text-slate-900 text-xs font-bold flex items-center justify-center gap-2 transition-all">
+                                    <i class="fa-solid fa-shirt"></i> Camiseta Polo
+                                </button>
+                                <button onclick="selectUniformType('apron')" id="btn-unif-apron" class="unif-type-btn p-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i class="fa-solid fa-vest"></i> Avental Care
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Control: Select Color -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Cor Base do Tecido</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button onclick="selectUniformColor('#1E293B', 'Azul Oceano')" class="color-picker-btn p-2 rounded-xl border border-slate-200 flex flex-col items-center gap-1 hover:bg-slate-50">
+                                    <span class="w-6 h-6 rounded-full bg-slate-800 border"></span>
+                                    <span class="text-[9px] font-bold text-slate-600">Oceano</span>
+                                </button>
+                                <button onclick="selectUniformColor('#2DD4BF', 'Menta')" class="color-picker-btn p-2 rounded-xl border border-slate-200 flex flex-col items-center gap-1 hover:bg-slate-50">
+                                    <span class="w-6 h-6 rounded-full bg-teal-400 border"></span>
+                                    <span class="text-[9px] font-bold text-slate-600">Menta</span>
+                                </button>
+                                <button onclick="selectUniformColor('#F8FAFC', 'Gelo')" class="color-picker-btn p-2 rounded-xl border border-slate-200 flex flex-col items-center gap-1 hover:bg-slate-50">
+                                    <span class="w-6 h-6 rounded-full bg-slate-50 border"></span>
+                                    <span class="text-[9px] font-bold text-slate-600">Gelo</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Control: Add Mascote badge or not -->
+                        <div class="space-y-2 pt-2 border-t">
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2">Elementos da Marca</span>
+                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-paw text-teal-600"></i>
+                                    <span class="text-xs font-semibold text-slate-700">Mascote Auri na Manga</span>
+                                </div>
+                                <input type="checkbox" id="unif-badge-toggle" checked onchange="toggleMascotBadge()" class="w-4 h-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500">
+                            </div>
+                        </div>
+
+                        <!-- Materials Summary Card -->
+                        <div class="p-4 bg-slate-900 text-white rounded-2xl space-y-2">
+                            <span class="text-[9px] font-bold text-teal-400 uppercase tracking-widest">Especificações Práticas</span>
+                            <h4 class="text-sm font-bold">Tecnologia AuraDry-Fit</h4>
+                            <p class="text-[11px] text-slate-400 leading-relaxed">
+                                Uniformes construídos com 100% poliamida reciclada, anti-odor e repelente à água e pêlos de pets. Perfeitos para clínicas, escritório ou trabalho de campo.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Visual Live Preview column -->
+                    <div class="lg:col-span-8 bg-slate-200/50 rounded-3xl border border-slate-200 p-8 flex flex-col items-center justify-center min-h-[480px] relative overflow-hidden">
+                        
+                        <!-- Floating preview details tag -->
+                        <div class="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200/60 text-[10px] font-bold text-slate-600">
+                            MODO MOCKUP: <span id="mockup-label-type" class="uppercase text-slate-900">Camiseta Polo</span> (<span id="mockup-label-color" class="text-teal-600 font-bold">Azul Oceano</span>)
+                        </div>
+
+                        <!-- Actual Interactive Vector SVG Canvas Container -->
+                        <div class="w-full max-w-md flex justify-center py-4">
+                            <!-- SVG Representation of Uniform Models -->
+                            <svg id="uniform-svg-element" class="w-80 h-80 drop-shadow-xl" viewBox="0 0 400 400">
+                                
+                                <!-- T-SHIRT VETOR DESIGN -->
+                                <g id="unif-svg-tshirt-group" class="transition-all duration-300">
+                                    <!-- Shirt body background shadow/silhouette -->
+                                    <path d="M70 110 L120 70 L200 85 L280 70 L330 110 L300 160 L270 150 L270 340 C 270 350, 130 350, 130 340 L130 150 L100 160 Z" fill="#1E293B" id="tshirt-body-fill" stroke="#000" stroke-width="2"/>
+                                    <!-- Sleeves and collar details -->
+                                    <path d="M120 70 L200 85 L280 70 L200 95 Z" fill="#ffffff" opacity="0.1" />
+                                    <path d="M130 150 L100 160 L85 130 L115 120 Z" fill="#000000" opacity="0.15" />
+                                    <path d="M270 150 L300 160 L315 130 L285 120 Z" fill="#000000" opacity="0.15" />
+                                    
+                                    <!-- Premium Polo Collar -->
+                                    <polygon points="160,80 200,110 240,80 200,90" fill="#2DD4BF" id="unif-collar-fill" stroke="#ffffff" stroke-width="1"/>
+                                    <line x1="200" y1="110" x2="200" y2="150" stroke="#ffffff" stroke-width="2" />
+                                    <circle cx="200" cy="125" r="2.5" fill="#fff" />
+                                    <circle cx="200" cy="138" r="2.5" fill="#fff" />
+
+                                    <!-- Logo on Left Chest -->
+                                    <rect x="220" y="125" width="24" height="24" rx="6" fill="#2DD4BF" id="tshirt-badge-fill" stroke="#ffffff" stroke-width="1"/>
+                                    <path d="M232 131 C228 131 226 134 232 141 C238 134 236 131 232 131 Z" fill="#fff"/>
+                                    
+                                    <!-- Dynamic Badge on Sleeve (Mascote) -->
+                                    <g id="svg-mascot-badge" class="transition-all duration-300">
+                                        <circle cx="105" cy="135" r="10" fill="#F59E0B" stroke="#ffffff" stroke-width="1.5" />
+                                        <!-- Miniature face symbol -->
+                                        <polygon points="101,130 105,133 109,130" fill="#FFF"/>
+                                        <circle cx="102" cy="135" r="1.5" fill="#111" />
+                                        <circle cx="108" cy="135" r="1.5" fill="#111" />
+                                    </g>
+                                </g>
+
+                                <!-- APRON VETOR DESIGN (Hidden initially) -->
+                                <g id="unif-svg-apron-group" class="hidden transition-all duration-300">
+                                    <!-- Grey shirt mockup underneath the apron -->
+                                    <path d="M70 110 L120 70 L200 85 L280 70 L330 110 L300 160 L270 150 L270 340 C 270 350, 130 350, 130 340 L130 150 L100 160 Z" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="2"/>
+                                    
+                                    <!-- Apron main body -->
+                                    <path d="M140 120 L260 120 L275 190 L285 330 C 285 335, 115 335, 115 330 L125 190 Z" fill="#1E293B" id="apron-body-fill" stroke="#111827" stroke-width="2"/>
+                                    
+                                    <!-- Apron Neck Loop Straps -->
+                                    <path d="M140 120 C140 70, 260 70, 260 120" fill="none" stroke="#2DD4BF" id="apron-strap-fill" stroke-width="8" stroke-linecap="round"/>
+                                    
+                                    <!-- Apron waist knot belt -->
+                                    <line x1="125" y1="190" x2="100" y2="200" stroke="#2DD4BF" id="apron-belt-1" stroke-width="4" />
+                                    <line x1="275" y1="190" x2="300" y2="200" stroke="#2DD4BF" id="apron-belt-2" stroke-width="4" />
+                                    
+                                    <!-- Cute center large pockets -->
+                                    <rect x="145" y="220" width="110" height="70" rx="10" fill="#2DD4BF" id="apron-pocket-fill" stroke="#ffffff" stroke-width="1.5" opacity="0.9"/>
+                                    <line x1="200" y1="220" x2="200" y2="290" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="3,3" />
+
+                                    <!-- AuraPet Paw Symbol on Pocket -->
+                                    <circle cx="170" cy="255" r="10" fill="#1E293B" />
+                                    <circle cx="160" cy="242" r="4" fill="#1E293B" />
+                                    <circle cx="170" cy="238" r="4" fill="#1E293B" />
+                                    <circle cx="180" cy="242" r="4" fill="#1E293B" />
+                                    
+                                    <!-- Logo on upper bib -->
+                                    <rect x="175" y="140" width="50" height="25" rx="5" fill="#FFFFFF" stroke="#e2e8f0" stroke-width="1" />
+                                    <!-- Simplified Text "AuraPet" inside SVG -->
+                                    <text x="200" y="156" fill="#1E293B" font-size="8" font-weight="bold" text-anchor="middle" font-family="'Fredoka'">AuraPet</text>
+                                </g>
+
+                            </svg>
+                        </div>
+
+                        <!-- Real-time design advice -->
+                        <div class="mt-6 text-center max-w-sm">
+                            <h4 class="text-sm font-bold text-slate-800">Uso do Logotipo</h4>
+                            <p class="text-xs text-slate-500">O selo minimalista está posicionado na altura do peito, proporcionando visibilidade clara sem sobrecarregar visualmente o profissional.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- TAB 3: INTERACTIVE TOOL (SIMULATOR) -->
+        <!-- ============================================== -->
+        <section id="panel-calculator" class="tab-panel hidden py-12">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="bg-teal-100 text-teal-800 font-bold px-3 py-1.5 rounded-full text-xs uppercase tracking-wider">Configure o Ecossistema do Seu Pet</span>
+                    <h2 class="text-3xl md:text-5xl font-black font-brand text-slate-900 mt-2">Simulador de Orçamento</h2>
+                    <p class="text-slate-600 text-sm mt-3">
+                        Escolha os produtos inteligentes para sua casa e descubra descontos progressivos especiais de forma instantânea.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    
+                    <!-- Left: Interactive Configuration Forms -->
+                    <div class="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-8 shadow-sm space-y-8">
+                        
+                        <!-- Step 1: Number of Pets with friendly counters -->
+                        <div class="space-y-4">
+                            <label class="text-sm font-bold text-slate-900 block flex items-center gap-2">
+                                <span class="bg-teal-500 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs font-brand">1</span>
+                                Quantos Pets você possui?
+                            </label>
+                            <div class="flex items-center gap-4">
+                                <button onclick="updatePetCount(-1)" class="w-12 h-12 rounded-2xl border border-slate-200 hover:bg-slate-50 flex items-center justify-center text-xl font-bold text-slate-700 transition-all">-</button>
+                                <div class="bg-slate-50 px-8 py-3 rounded-2xl border border-slate-200 text-center font-bold font-brand text-2xl text-teal-600 min-w-[70px]" id="calc-pet-count">1</div>
+                                <button onclick="updatePetCount(1)" class="w-12 h-12 rounded-2xl border border-slate-200 hover:bg-slate-50 flex items-center justify-center text-xl font-bold text-slate-700 transition-all">+</button>
+                                <span class="text-xs text-slate-400 font-medium">* Descontos adicionais na mensalidade para múltiplos pets!</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Choose Hardware units -->
+                        <div class="space-y-4 border-t border-slate-100 pt-6">
+                            <label class="text-sm font-bold text-slate-900 block flex items-center gap-2">
+                                <span class="bg-teal-500 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs font-brand">2</span>
+                                Escolha os Dispositivos Inteligentes:
+                            </label>
+
+                            <div class="space-y-3">
+                                <!-- Hardware Option 1 -->
+                                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-teal-500/50 transition-all">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center text-xl">
+                                            <i class="fa-solid fa-microchip"></i>
+                                        </div>
+                                        <div>
+                                            <span class="font-bold text-slate-800 text-sm block">AuraCollar Smart</span>
+                                            <span class="text-xs text-slate-500">R$ 289,00 cada</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <button onclick="updateHardwareQty('collar', -1)" class="w-8 h-8 rounded-lg border bg-white hover:bg-slate-100 flex items-center justify-center font-bold text-slate-700">-</button>
+                                        <span id="qty-collar" class="w-6 text-center font-bold text-slate-900">1</span>
+                                        <button onclick="updateHardwareQty('collar', 1)" class="w-8 h-8 rounded-lg border bg-white hover:bg-slate-100 flex items-center justify-center font-bold text-slate-700">+</button>
+                                    </div>
+                                </div>
+
+                                <!-- Hardware Option 2 -->
+                                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-teal-500/50 transition-all">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-500 flex items-center justify-center text-xl">
+                                            <i class="fa-solid fa-utensils"></i>
+                                        </div>
+                                        <div>
+                                            <span class="font-bold text-slate-800 text-sm block">AuraFeeder Pro</span>
+                                            <span class="text-xs text-slate-500">R$ 449,00 cada</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <button onclick="updateHardwareQty('feeder', -1)" class="w-8 h-8 rounded-lg border bg-white hover:bg-slate-100 flex items-center justify-center font-bold text-slate-700">-</button>
+                                        <span id="qty-feeder" class="w-6 text-center font-bold text-slate-900">0</span>
+                                        <button onclick="updateHardwareQty('feeder', 1)" class="w-8 h-8 rounded-lg border bg-white hover:bg-slate-100 flex items-center justify-center font-bold text-slate-700">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Choose Plan Tier -->
+                        <div class="space-y-4 border-t border-slate-100 pt-6">
+                            <label class="text-sm font-bold text-slate-900 block flex items-center gap-2">
+                                <span class="bg-teal-500 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs font-brand">3</span>
+                                Nível do Plano AuraCare:
+                            </label>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <label class="border-2 border-slate-200 rounded-2xl p-4 flex flex-col justify-between gap-3 cursor-pointer hover:bg-slate-50/50 transition-all relative" id="tier-card-basic">
+                                    <input type="radio" name="plan_tier" value="basic" checked onchange="selectPlanTier('basic')" class="absolute top-4 right-4 text-teal-600 focus:ring-teal-500">
+                                    <div>
+                                        <span class="text-xs font-bold text-slate-500 uppercase block">Essencial</span>
+                                        <span class="text-sm font-black text-slate-900 mt-1 block">AuraLite</span>
+                                    </div>
+                                    <span class="text-xs font-bold text-teal-600">R$ 0,00/mês</span>
+                                </label>
+                                <label class="border-2 border-slate-200 rounded-2xl p-4 flex flex-col justify-between gap-3 cursor-pointer hover:bg-slate-50/50 transition-all relative" id="tier-card-premium">
+                                    <input type="radio" name="plan_tier" value="premium" onchange="selectPlanTier('premium')" class="absolute top-4 right-4 text-teal-600 focus:ring-teal-500">
+                                    <div>
+                                        <span class="text-xs font-bold text-teal-600 uppercase block">Completo</span>
+                                        <span class="text-sm font-black text-slate-900 mt-1 block">AuraCare Pro</span>
+                                    </div>
+                                    <span class="text-xs font-bold text-teal-600">R$ 29,90/mês</span>
+                                </label>
+                                <label class="border-2 border-slate-200 rounded-2xl p-4 flex flex-col justify-between gap-3 cursor-pointer hover:bg-slate-50/50 transition-all relative" id="tier-card-ultimate">
+                                    <input type="radio" name="plan_tier" value="ultimate" onchange="selectPlanTier('ultimate')" class="absolute top-4 right-4 text-teal-600 focus:ring-teal-500">
+                                    <div>
+                                        <span class="text-xs font-bold text-rose-500 uppercase block">Clínica 24h</span>
+                                        <span class="text-sm font-black text-slate-900 mt-1 block">Ultimate Health</span>
+                                    </div>
+                                    <span class="text-xs font-bold text-teal-600">R$ 59,90/mês</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Special Discount Code -->
+                        <div class="space-y-4 border-t border-slate-100 pt-6">
+                            <label class="text-sm font-bold text-slate-900 block flex items-center gap-2">
+                                <span class="bg-teal-500 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs font-brand">4</span>
+                                Cupom de Desconto:
+                            </label>
+                            <div class="flex gap-2">
+                                <input type="text" id="coupon-input" placeholder="Ex: AURAFREE, PET10" class="bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent px-4 py-3 rounded-xl w-full text-sm font-semibold uppercase">
+                                <button onclick="applyCoupon()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-6 py-3 rounded-xl transition-all">Aplicar</button>
+                            </div>
+                            <p class="text-[11px] text-slate-400">Dica académica: Digite <b>AURAFREE</b> ou <b>PET10</b> para descontos de até 15% nos aparelhos!</p>
+                        </div>
+
+                    </div>
+
+                    <!-- Right: Dynamic Results Screen & Reciept Summary -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="bg-slate-900 text-white rounded-3xl p-8 shadow-lg border border-slate-800 relative overflow-hidden">
+                            <!-- Background elements -->
+                            <div class="absolute -top-12 -right-12 w-32 h-32 bg-teal-500/15 rounded-full blur-xl"></div>
+                            
+                            <h3 class="text-xl font-bold font-brand tracking-wide text-teal-400 border-b border-slate-800 pb-4 flex justify-between items-center">
+                                <span>Orçamento AuraPet</span>
+                                <i class="fa-solid fa-receipt text-slate-500"></i>
+                            </h3>
+
+                            <!-- Reciept body breakdown -->
+                            <div class="py-6 space-y-4 text-sm border-b border-slate-800">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Total em Hardware:</span>
+                                    <span class="font-semibold text-slate-200" id="receipt-hardware-total">R$ 289,00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Mensalidade Planos:</span>
+                                    <span class="font-semibold text-slate-200" id="receipt-plan-total">R$ 0,00</span>
+                                </div>
+                                <div class="flex justify-between text-rose-400 font-semibold" id="receipt-discount-row" style="display: none;">
+                                    <span>Desconto Cupom:</span>
+                                    <span id="receipt-discount-val">-R$ 0,00</span>
+                                </div>
+                                <div class="flex justify-between text-teal-400 font-semibold" id="receipt-bundle-discount-row">
+                                    <span>Desconto Progressivo:</span>
+                                    <span id="receipt-bundle-discount-val">-R$ 0,00</span>
+                                </div>
+                            </div>
+
+                            <!-- Big Bold Totals -->
+                            <div class="py-6 space-y-4">
+                                <div>
+                                    <span class="text-xs text-slate-400 uppercase tracking-widest block">Pagamento Único (Equipamentos)</span>
+                                    <span class="text-4xl font-black text-white font-brand" id="receipt-final-one-time">R$ 289,00</span>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-400 uppercase tracking-widest block">Mensalidade Recorrente</span>
+                                    <span class="text-2xl font-bold text-teal-300 font-brand" id="receipt-final-monthly">R$ 0,00 <span class="text-xs text-slate-400">/ mês</span></span>
+                                </div>
+                            </div>
+
+                            <!-- Order Action button inside Simulator -->
+                            <button onclick="simulateOrderCheckout()" class="w-full bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-500 hover:to-emerald-500 text-slate-950 font-black py-4 rounded-2xl transition-all duration-300 shadow-lg shadow-teal-500/10 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-credit-card"></i> Fechar Meu Pedido AuraPet
+                            </button>
+                        </div>
+
+                        <!-- Mini Trust badges -->
+                        <div class="bg-white rounded-2xl p-4 border border-slate-200 flex items-center gap-3">
+                            <i class="fa-solid fa-truck-fast text-2xl text-teal-500"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-800">Frete Expresso para todo o Brasil</h4>
+                                <p class="text-[10px] text-slate-500">Receba seus aparelhos higienizados e pré-carregados em até 5 dias.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- TAB 4: GOOGLE CLASSROOM SHARE TOOLS -->
+        <!-- ============================================== -->
+        <section id="panel-share" class="tab-panel hidden py-12">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1.5 rounded-full text-xs uppercase tracking-wider">Avaliação Acadêmica</span>
+                    <h2 class="text-3xl md:text-5xl font-black font-brand text-slate-900 mt-2">Hub de Compartilhamento</h2>
+                    <p class="text-slate-600 text-sm mt-3">
+                        Gere e copie facilmente os links funcionais e o relatório para entrega direta no Google Classroom.
+                    </p>
+                </div>
+
+                <!-- Academic Submission Board -->
+                <div class="bg-white border border-slate-200 rounded-[32px] p-8 md:p-12 shadow-md space-y-8">
+                    
+                    <div class="flex items-center gap-4 border-b border-slate-100 pb-6">
+                        <div class="bg-emerald-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900">Instruções de Postagem no Classroom</h3>
+                            <p class="text-xs text-slate-500">Siga as diretrizes abaixo para garantir o registro correto da sua atividade prática.</p>
+                        </div>
+                    </div>
+
+                    <!-- Steps display grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                        
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                <span class="bg-slate-100 text-slate-700 w-5 h-5 rounded-full inline-flex items-center justify-center text-xs">1</span>
+                                Cópia de Links Oficiais
+                            </h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                Use os botões rápidos do painel ao lado para copiar os links da Landing Page integrada e da calculadora. Eles já vêm configurados para visualização direta do avaliador.
+                            </p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                <span class="bg-slate-100 text-slate-700 w-5 h-5 rounded-full inline-flex items-center justify-center text-xs">2</span>
+                                Inserção nos Comentários
+                            </h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                No Google Classroom, acesse a tarefa de design, clique no campo de <b>comentários privados ou públicos</b>, cole os links gerados e envie juntamente com seu nome de aluno.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <!-- Links Generator Panel -->
+                    <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200/60 space-y-4">
+                        <h4 class="text-sm font-bold text-slate-800">Seus Links Gerados de Compartilhamento</h4>
+                        
+                        <div class="space-y-3">
+                            <!-- Link 1 -->
+                            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                                <span class="text-xs font-semibold text-slate-500 w-full sm:w-32 flex-shrink-0">Landing Page Principal:</span>
+                                <div class="flex-grow bg-white border px-4 py-2.5 rounded-xl text-xs font-mono text-slate-700 select-all overflow-hidden truncate">
+                                    https://aurapet.brand.vercel.app/home
+                                </div>
+                                <button onclick="copyToClipboard('https://aurapet.brand.vercel.app/home')" class="bg-slate-950 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center gap-2 justify-center transition-all">
+                                    <i class="fa-regular fa-copy"></i> Copiar Link
+                                </button>
+                            </div>
+
+                            <!-- Link 2 -->
+                            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                                <span class="text-xs font-semibold text-slate-500 w-full sm:w-32 flex-shrink-0">Calculadora / Simulador:</span>
+                                <div class="flex-grow bg-white border px-4 py-2.5 rounded-xl text-xs font-mono text-slate-700 select-all overflow-hidden truncate">
+                                    https://aurapet.brand.vercel.app/simulador-orcamento
+                                </div>
+                                <button onclick="copyToClipboard('https://aurapet.brand.vercel.app/simulador-orcamento')" class="bg-slate-950 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center gap-2 justify-center transition-all">
+                                    <i class="fa-regular fa-copy"></i> Copiar Link
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pre-formatted Classroom Text Template -->
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-sm font-bold text-slate-800">Modelo de Comentário para o Classroom</h4>
+                            <button onclick="copyToClipboard(document.getElementById('classroom-template').innerText)" class="text-xs text-teal-600 font-bold hover:text-teal-700">Copiar Texto Inteiro</button>
+                        </div>
+                        <div id="classroom-template" class="bg-slate-900 text-slate-300 p-4 rounded-xl text-xs font-mono whitespace-pre-line leading-relaxed border border-slate-800 select-all">
+                            Olá, professor(a)! Seguem os links oficiais para avaliação da atividade de Design de Identidade de Marca:
+
+                            🌐 1. Landing Page Oficial: https://aurapet.brand.vercel.app/home
+                            🧮 2. Simulador Interativo: https://aurapet.brand.vercel.app/simulador-orcamento
+
+                            Projeto: AuraPet (Tecnologia e Saúde para Animais de Estimação).
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Footer -->
+    <div class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400">
+        Desenvolvido com excelência por AuraPet Brand Experience Specialist. Todos os mockups e dados interativos de preço são simulados em tempo real.
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- JAVASCRIPT LOGIC & STATE MANAGEMENT -->
+    <!-- ============================================== -->
+    <script>
+        // Global App State
+        const state = {
+            currentTab: 'landing',
+            
+            // Uniform Designer State
+            uniform: {
+                type: 'tshirt', // 'tshirt' or 'apron'
+                color: '#1E293B',
+                colorLabel: 'Azul Oceano',
+                badgeActive: true
+            },
+
+            // Calculator State
+            calculator: {
+                pets: 1,
+                qtyCollar: 1,
+                qtyFeeder: 0,
+                planTier: 'basic', // 'basic', 'premium', 'ultimate'
+                coupon: '',
+                discountPercent: 0,
+                pricing: {
+                    collarUnit: 289,
+                    feederUnit: 449,
+                    plans: {
+                        basic: 0,
+                        premium: 29.90,
+                        ultimate: 59.90
+                    }
+                }
+            }
+        };
+
+        // Window load initialization
+        window.onload = function() {
+            // Setup default styling state
+            updateUniformVisualization();
+            updateCalculatorResults();
+        };
+
+        // Tab Switcher Controller
+        function switchTab(tabName) {
+            // Update State
+            state.currentTab = tabName;
+
+            // Update Panel Visibility
+            const panels = ['landing', 'uniforms', 'calculator', 'share'];
+            panels.forEach(p => {
+                const element = document.getElementById(`panel-${p}`);
+                if (p === tabName) {
+                    element.classList.remove('hidden');
+                    element.classList.add('block');
+                } else {
+                    element.classList.add('hidden');
+                    element.classList.remove('block');
+                }
+            });
+
+            // Update Header Navigation Buttons Style
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => {
+                const btnId = btn.id;
+                if (btnId === `tab-btn-${tabName}`) {
+                    btn.classList.add('bg-teal-500', 'text-white', 'shadow-sm');
+                    btn.classList.remove('text-slate-600', 'hover:text-slate-900');
+                } else {
+                    btn.classList.remove('bg-teal-500', 'text-white', 'shadow-sm');
+                    btn.classList.add('text-slate-600', 'hover:text-slate-900');
+                }
+            });
+
+            // Update Mobile Bottom Nav Buttons Style
+            const mobileButtons = document.querySelectorAll('.mobile-tab-btn');
+            mobileButtons.forEach(btn => {
+                const btnId = btn.id;
+                if (btnId === `mobile-tab-btn-${tabName}`) {
+                    btn.classList.add('text-teal-600', 'font-semibold');
+                    btn.classList.remove('text-slate-500', 'font-medium');
+                } else {
+                    btn.classList.remove('text-teal-600', 'font-semibold');
+                    btn.classList.add('text-slate-500', 'font-medium');
+                }
+            });
+
+            // Smooth scroll to top of viewport
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ==============================================
+        // Uniform Designer Logic
+        // ==============================================
+        function selectUniformType(type) {
+            state.uniform.type = type;
+            
+            // Toggle active visual button style
+            const btnTshirt = document.getElementById('btn-unif-tshirt');
+            const btnApron = document.getElementById('btn-unif-apron');
+            
+            if (type === 'tshirt') {
+                btnTshirt.classList.add('border-teal-500', 'bg-teal-50', 'text-slate-900');
+                btnTshirt.classList.remove('border-slate-200', 'text-slate-600');
+                btnApron.classList.remove('border-teal-500', 'bg-teal-50', 'text-slate-900');
+                btnApron.classList.add('border-slate-200', 'text-slate-600');
+            } else {
+                btnApron.classList.add('border-teal-500', 'bg-teal-50', 'text-slate-900');
+                btnApron.classList.remove('border-slate-200', 'text-slate-600');
+                btnTshirt.classList.remove('border-teal-500', 'bg-teal-50', 'text-slate-900');
+                btnTshirt.classList.add('border-slate-200', 'text-slate-600');
+            }
+
+            updateUniformVisualization();
+        }
+
+        function selectUniformColor(hexColor, label) {
+            state.uniform.color = hexColor;
+            state.uniform.colorLabel = label;
+            updateUniformVisualization();
+        }
+
+        function toggleMascotBadge() {
+            const toggle = document.getElementById('unif-badge-toggle');
+            state.uniform.badgeActive = toggle.checked;
+            updateUniformVisualization();
+        }
+
+        function updateUniformVisualization() {
+            // Labels update
+            document.getElementById('mockup-label-type').innerText = state.uniform.type === 'tshirt' ? 'Camiseta Polo' : 'Avental Care';
+            document.getElementById('mockup-label-color').innerText = state.uniform.colorLabel;
+
+            // Show/Hide relevant SVG Groups
+            const tshirtGroup = document.getElementById('unif-svg-tshirt-group');
+            const apronGroup = document.getElementById('unif-svg-apron-group');
+
+            if (state.uniform.type === 'tshirt') {
+                tshirtGroup.classList.remove('hidden');
+                apronGroup.classList.add('hidden');
+                
+                // Set color of shirt body
+                document.getElementById('tshirt-body-fill').setAttribute('fill', state.uniform.color);
+            } else {
+                tshirtGroup.classList.add('hidden');
+                apronGroup.classList.remove('hidden');
+                
+                // Set color of apron body
+                document.getElementById('apron-body-fill').setAttribute('fill', state.uniform.color);
+            }
+
+            // Mascot badge sleeve group toggle
+            const mascotBadge = document.getElementById('svg-mascot-badge');
+            if (state.uniform.badgeActive) {
+                mascotBadge.classList.remove('hidden');
+            } else {
+                mascotBadge.classList.add('hidden');
+            }
+        }
+
+
+        // ==============================================
+        // Interactive Budget Simulator Logic
+        // ==============================================
+        function updatePetCount(step) {
+            const newCount = state.calculator.pets + step;
+            if (newCount >= 1 && newCount <= 10) {
+                state.calculator.pets = newCount;
+                document.getElementById('calc-pet-count').innerText = newCount;
+                updateCalculatorResults();
+            }
+        }
+
+        function updateHardwareQty(itemType, step) {
+            if (itemType === 'collar') {
+                const newQty = state.calculator.qtyCollar + step;
+                if (newQty >= 0 && newQty <= 10) {
+                    state.calculator.qtyCollar = newQty;
+                    document.getElementById('qty-collar').innerText = newQty;
+                }
+            } else if (itemType === 'feeder') {
+                const newQty = state.calculator.qtyFeeder + step;
+                if (newQty >= 0 && newQty <= 10) {
+                    state.calculator.qtyFeeder = newQty;
+                    document.getElementById('qty-feeder').innerText = newQty;
+                }
+            }
+            updateCalculatorResults();
+        }
+
+        function selectPlanTier(tier) {
+            state.calculator.planTier = tier;
+            
+            // Visual indicators of selection
+            const cards = ['basic', 'premium', 'ultimate'];
+            cards.forEach(c => {
+                const element = document.getElementById(`tier-card-${c}`);
+                if (c === tier) {
+                    element.classList.add('border-teal-500', 'bg-teal-50/20');
+                    element.classList.remove('border-slate-200');
+                } else {
+                    element.classList.remove('border-teal-500', 'bg-teal-50/20');
+                    element.classList.add('border-slate-200');
+                }
+            });
+
+            updateCalculatorResults();
+        }
+
+        function applyCoupon() {
+            const input = document.getElementById('coupon-input').value.toUpperCase().trim();
+            if (input === 'AURAFREE') {
+                state.calculator.discountPercent = 15;
+                showToast('Cupom AURAFREE Aplicado! 15% de desconto no hardware.', 'success');
+            } else if (input === 'PET10') {
+                state.calculator.discountPercent = 10;
+                showToast('Cupom PET10 Aplicado! 10% de desconto no hardware.', 'success');
+            } else {
+                state.calculator.discountPercent = 0;
+                showToast('Cupom inválido ou expirado.', 'error');
+            }
+            updateCalculatorResults();
+        }
+
+        function updateCalculatorResults() {
+            // Hardware Cost
+            const hardwareSubtotal = (state.calculator.qtyCollar * state.calculator.pricing.collarUnit) +
+                                    (state.calculator.qtyFeeder * state.calculator.pricing.feederUnit);
+            
+            // Plan Cost: Basic tier is free. Pro and Ultimate scale per pet
+            const basePlanCost = state.calculator.pricing.plans[state.calculator.planTier];
+            
+            // Apply scale discounts for multiple pets on monthly subscriptions
+            // 1 pet: full price. 2 pets: 10% off. 3+ pets: 20% off monthly plans
+            let petDiscountMultiplier = 1;
+            if (state.calculator.pets === 2) {
+                petDiscountMultiplier = 0.90;
+            } else if (state.calculator.pets >= 3) {
+                petDiscountMultiplier = 0.80;
+            }
+            const monthlyPlanSubtotal = basePlanCost * state.calculator.pets * petDiscountMultiplier;
+
+            // Apply promotional discount code if active
+            const promoDiscountVal = hardwareSubtotal * (state.calculator.discountPercent / 100);
+
+            // Apply progressive bundle discount if buyer selects both items
+            let bundleDiscountVal = 0;
+            if (state.calculator.qtyCollar > 0 && state.calculator.qtyFeeder > 0) {
+                // R$ 50 discount if both devices are owned
+                bundleDiscountVal = 50.00;
+            }
+
+            const finalHardwareTotal = Math.max(0, hardwareSubtotal - promoDiscountVal - bundleDiscountVal);
+
+            // Update DOM Receipt Nodes
+            document.getElementById('receipt-hardware-total').innerText = `R$ ${hardwareSubtotal.toFixed(2).replace('.', ',')}`;
+            document.getElementById('receipt-plan-total').innerText = `R$ ${monthlyPlanSubtotal.toFixed(2).replace('.', ',')}`;
+            
+            // Display Coupon discount row if relevant
+            const discountRow = document.getElementById('receipt-discount-row');
+            if (promoDiscountVal > 0) {
+                discountRow.style.display = 'flex';
+                document.getElementById('receipt-discount-val').innerText = `-R$ ${promoDiscountVal.toFixed(2).replace('.', ',')}`;
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            // Display Progressive discount row if relevant
+            const bundleRow = document.getElementById('receipt-bundle-discount-row');
+            if (bundleDiscountVal > 0) {
+                bundleRow.style.display = 'flex';
+                document.getElementById('receipt-bundle-discount-val').innerText = `-R$ ${bundleDiscountVal.toFixed(2).replace('.', ',')}`;
+            } else {
+                bundleRow.style.display = 'none';
+            }
+
+            // Ultimate Totals Display
+            document.getElementById('receipt-final-one-time').innerText = `R$ ${finalHardwareTotal.toFixed(2).replace('.', ',')}`;
+            document.getElementById('receipt-final-monthly').innerText = `R$ ${monthlyPlanSubtotal.toFixed(2).replace('.', ',')} / mês`;
+        }
+
+        function simulateOrderCheckout() {
+            showToast('Pedido Simulado com sucesso! Entraremos em contato para finalizar.', 'success');
+        }
+
+
+        // ==============================================
+        // Utility Functions (Clips, Toast notifications)
+        // ==============================================
+        function copyToClipboard(text) {
+            // Fallback strategy using document.execCommand as requested by framework
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            
+            showToast('Copiado para a área de transferência!', 'success');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMessage.innerText = message;
+            
+            if (type === 'success') {
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                toastIcon.className = 'text-teal-400 text-lg';
+            } else {
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
+                toastIcon.className = 'text-rose-500 text-lg';
+            }
+
+            // Slide in animation
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            // Slide out after 3.5 seconds
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
